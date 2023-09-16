@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Pad</title>
+    <style>
+        
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+        }
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+        .task {
+            display: flex;
+            flex-direction: column; 
+            border: 1px solid #110606;
+            padding: 10px;
+            margin: 5px 0;
+        }
+        .task-title,
+        .task-description {
+            width: 100%; 
+            height: auto; 
+            
+        }
+        .task-title {
+            font-weight: bold;
+        }
+        .task-description {
+           
+            margin-top: 5px;
+        }
+        .delete-button {
+            background-color: #0011ff;
+            color: #ffffff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        
+        .input-container {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Note Pad</h1>
+       
+        <div class="input-container">
+            <input type="text" id="taskTitle" placeholder="Task Title">
+            <textarea id="taskDescription" placeholder="Task Description"></textarea>
+            <button id="addTaskButton">Add</button>
+        </div>
+        <ul class="task-list" id="taskList">
+          
+        </ul>
+    </div>
+    <script>
+        let taskTitleInput = document.getElementById('taskTitle');
+        let taskDescriptionInput = document.getElementById('taskDescription');
+        let addTaskButton = document.getElementById('addTaskButton');
+        let taskList = document.getElementById('taskList');
+        let initialTasks = [
+        ];
+
+       
+        function addTaskToList(title, description) {
+            let listItem = document.createElement('li');
+            listItem.className = 'task';
+
+            let taskTitleElement = document.createElement('span');
+            taskTitleElement.className = 'task-title';
+            taskTitleElement.textContent = title;
+
+            let taskDescriptionElement = document.createElement('p');
+            taskDescriptionElement.className = 'task-description';
+            taskDescriptionElement.textContent = description;
+
+            let deleteButton = document.createElement('button');
+            deleteButton.className = 'delete-button';
+            deleteButton.textContent = 'Delete';
+
+            deleteButton.addEventListener('click', () => {
+                taskList.removeChild(listItem);
+            });
+
+            listItem.appendChild(taskTitleElement);
+            listItem.appendChild(taskDescriptionElement);
+            listItem.appendChild(deleteButton);
+            taskList.appendChild(listItem);
+        }
+
+       
+        initialTasks.forEach(task => {
+            addTaskToList(task.title, task.description);
+        });
+
+      
+        addTaskButton.addEventListener('click', () => {
+            let taskTitle = taskTitleInput.value.trim();
+            let taskDescription = taskDescriptionInput.value.trim();
+
+            if (taskTitle !== '') {
+                addTaskToList(taskTitle, taskDescription);
+                taskTitleInput.value = '';
+                taskDescriptionInput.value = '';
+            }
+        });
+    </script>
+</body>
+</html>
